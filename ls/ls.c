@@ -29,7 +29,17 @@ static void do_ls(char *path) {
 		exit(1);
 	}
 	while (ent = readdir(d)) {
-		printf("%s\n", ent->d_name);
+		switch (ent->d_type) {
+			case DT_DIR:
+				printf("\x1b[34m");
+				printf("%s\n", ent->d_name);
+				break;
+
+			default:
+				printf("\x1b[39m");
+				printf("%s\n", ent->d_name);
+				break;
+		}
 	}
 	closedir(d);
 }
